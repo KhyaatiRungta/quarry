@@ -1,0 +1,60 @@
+{
+  "scenario": "sensors_messy",
+  "model": "offline/replay (recorded shape: anthropic/claude-3.5-sonnet)",
+  "dataset": "data/sensors.csv",
+  "note": "Canned model turns. Tool execution, timings and the trace are real.",
+  "match_questions": [
+    "What is the mean temperature across all readings?",
+    "What is the mean temperature in degrees C across all readings?"
+  ],
+  "responses": [
+    {
+      "text": "Mean of temp_c.",
+      "prompt_tokens": 1240,
+      "completion_tokens": 40,
+      "latency_s": 1.55,
+      "tool_calls": [
+        {
+          "name": "run_python",
+          "arguments": {
+            "code": "result = df['temp_c'].mean()"
+          }
+        }
+      ]
+    },
+    {
+      "text": "temp_c is stored as text, not numbers: some values carry a ' C' suffix and some are the literal string 'N/A'. I need to strip the unit, treat 'N/A' as missing, and coerce before averaging.",
+      "prompt_tokens": 1495,
+      "completion_tokens": 186,
+      "latency_s": 2.64,
+      "tool_calls": [
+        {
+          "name": "run_python",
+          "arguments": {
+            "code": "raw = df['temp_c'].astype('string').str.strip()\ncleaned = raw.str.replace(' C', '', regex=False)\ncleaned = cleaned.replace({'N/A': None, '': None})\ntemp = pd.to_numeric(cleaned, errors='coerce')\nprint('rows', len(df))\nprint('usable', int(temp.notna().sum()))\nprint('dropped', int(temp.isna().sum()))\nresult = round(float(temp.mean()), 3)"
+          }
+        }
+      ]
+    },
+    {
+      "text": "",
+      "prompt_tokens": 1870,
+      "completion_tokens": 124,
+      "latency_s": 2.05,
+      "tool_calls": [
+        {
+          "name": "final_answer",
+          "arguments": {
+            "answer": "The mean temperature is 17.587 C. That is computed over the 487 readings of 600 that carry a usable value: temp_c is stored as text, with a ' C' unit suffix on some rows and the literal string 'N/A' or an empty cell on 113 rows, all of which were coerced to missing and excluded rather than counted as zero.",
+            "supporting_values": [
+              "17.587",
+              "487",
+              "600",
+              "113"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

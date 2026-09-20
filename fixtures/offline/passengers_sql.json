@@ -1,0 +1,44 @@
+{
+  "scenario": "passengers_sql",
+  "model": "offline/replay (recorded shape: anthropic/claude-3.5-sonnet)",
+  "dataset": "data/passengers.csv",
+  "note": "Canned model turns. Tool execution, timings and the trace are real.",
+  "match_questions": [
+    "What was the survival rate in each passenger class?"
+  ],
+  "responses": [
+    {
+      "text": "A single grouped SQL query answers this.",
+      "prompt_tokens": 1205,
+      "completion_tokens": 74,
+      "latency_s": 1.93,
+      "tool_calls": [
+        {
+          "name": "run_sql",
+          "arguments": {
+            "query": "SELECT pclass, COUNT(*) AS n, ROUND(AVG(survived), 4) AS survival_rate FROM passengers GROUP BY pclass ORDER BY pclass"
+          }
+        }
+      ]
+    },
+    {
+      "text": "",
+      "prompt_tokens": 1520,
+      "completion_tokens": 96,
+      "latency_s": 1.71,
+      "tool_calls": [
+        {
+          "name": "final_answer",
+          "arguments": {
+            "answer": "Survival rate falls sharply outside first class. Class 1 survived at 0.6506, class 2 at 0.3797 and class 3 at 0.382, so a first-class passenger was roughly 1.7 times as likely to survive as anyone else. Classes 2 and 3 are within a percentage point of each other.",
+            "supporting_values": [
+              "0.6506",
+              "0.3797",
+              "0.382"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1385 @@
+{
+  "generated_at": "2026-09-20T18:54:33+00:00",
+  "mode": "offline",
+  "model": "offline/replay",
+  "judge_model": null,
+  "tasks_total": 43,
+  "tasks_run": 43,
+  "status": "offline_smoke",
+  "note": "Offline mode. Only tasks with a recorded fixture run; every other task is reported as skipped, not as a failure. These numbers describe the harness working end to end, not model quality. The full suite needs a live key.",
+  "arms": {
+    "on": {
+      "tasks_attempted": 3,
+      "tasks_graded": 3,
+      "tasks_skipped": 40,
+      "judge_skipped": 0,
+      "task_success_rate": 1.0,
+      "median_steps": 3,
+      "median_tool_calls": 3,
+      "repair_rate": 0.6667,
+      "repair_attempts": 3,
+      "repair_success_rate": 0.6667,
+      "grounded_rate": 1.0,
+      "mean_cost_usd_per_task": 0.02311,
+      "total_cost_usd": 0.0693,
+      "p95_latency_s": 2.189,
+      "median_latency_s": 1.102,
+      "sandbox_violations": 0
+    },
+    "off": {
+      "tasks_attempted": 3,
+      "tasks_graded": 3,
+      "tasks_skipped": 40,
+      "judge_skipped": 0,
+      "task_success_rate": 0.3333,
+      "median_steps": 1,
+      "median_tool_calls": 1,
+      "repair_rate": 0.0,
+      "repair_attempts": 0,
+      "repair_success_rate": null,
+      "grounded_rate": 0.3333,
+      "mean_cost_usd_per_task": 0.00635,
+      "total_cost_usd": 0.0191,
+      "p95_latency_s": 0.662,
+      "median_latency_s": 0.614,
+      "sandbox_violations": 0
+    }
+  },
+  "per_task": [
+    {
+      "id": "pass-01",
+      "arm": "on",
+      "dataset": "data/passengers.csv",
+      "difficulty": "easy",
+      "tags": [
+        "count"
+      ],
+      "graded_by": "numeric",
+      "question": "How many passengers are in the table?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-02",
+      "arm": "on",
+      "dataset": "data/passengers.csv",
+      "difficulty": "easy",
+      "tags": [
+        "aggregation"
+      ],
+      "graded_by": "numeric",
+      "question": "What fraction of passengers survived?",
+      "skipped": false,
+      "passed": true,
+      "grade": {
+        "passed": true,
+        "method": "numeric",
+        "expected": 0.447059,
+        "matched": 0.4471,
+        "window": 0.002235295
+      },
+      "answer": "0.4471 of passengers survived, that is 44.71 percent of the 340 people in the table. The survived column is a 0/1 flag with no missing values, so the mean is the rate directly.",
+      "supporting_values": [
+        "0.4471",
+        "340"
+      ],
+      "stop_reason": "final_answer",
+      "steps": 2,
+      "tool_calls": 2,
+      "repair_attempts": 0,
+      "repair_successes": 0,
+      "failure_kinds": [],
+      "sandbox_violations": 0,
+      "grounded": true,
+      "cost_usd": 0.00981,
+      "wall_s": 0.015,
+      "trace_path": "/tmp/benchruns/on/pass-02-on/trace.json"
+    },
+    {
+      "id": "pass-03",
+      "arm": "on",
+      "dataset": "data/passengers.csv",
+      "difficulty": "easy",
+      "tags": [
+        "groupby",
+        "filter"
+      ],
+      "graded_by": "numeric",
+      "question": "What was the average fare paid by first class passengers?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-04",
+      "arm": "on",
+      "dataset": "data/passengers.csv",
+      "difficulty": "easy",
+      "tags": [
+        "nulls"
+      ],
+      "graded_by": "numeric",
+      "question": "How many passengers have no recorded age?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-05",
+      "arm": "on",
+      "dataset": "data/passengers.csv",
+      "difficulty": "easy",
+      "tags": [
+        "groupby",
+        "filter"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the survival rate among female passengers?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-06",
+      "arm": "on",
+      "dataset": "data/passengers.csv",
+      "difficulty": "easy",
+      "tags": [
+        "groupby",
+        "categorical"
+      ],
+      "graded_by": "predicate",
+      "question": "Which embarkation port did the most passengers leave from?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-07",
+      "arm": "on",
+      "dataset": "data/passengers.csv",
+      "difficulty": "medium",
+      "tags": [
+        "nulls",
+        "aggregation"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the median age of passengers, ignoring missing ages?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-08",
+      "arm": "on",
+      "dataset": "data/passengers.csv",
+      "difficulty": "medium",
+      "tags": [
+        "filter",
+        "count"
+      ],
+      "graded_by": "numeric",
+      "question": "How many passengers travelled with at least one sibling or spouse aboard?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-09",
+      "arm": "on",
+      "dataset": "data/passengers.csv",
+      "difficulty": "hard",
+      "tags": [
+        "nulls",
+        "filter",
+        "groupby"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the survival rate of third class passengers under 18? Passengers with a missing age should be excluded.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-10",
+      "arm": "on",
+      "dataset": "data/passengers.csv",
+      "difficulty": "medium",
+      "tags": [
+        "groupby",
+        "arithmetic"
+      ],
+      "graded_by": "numeric",
+      "question": "How much higher is the average fare of survivors than of non-survivors?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-11",
+      "arm": "on",
+      "dataset": "data/passengers.csv",
+      "difficulty": "medium",
+      "tags": [
+        "correlation"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the Pearson correlation between fare and survival?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-12",
+      "arm": "on",
+      "dataset": "data/passengers.csv",
+      "difficulty": "medium",
+      "tags": [
+        "nulls",
+        "filter"
+      ],
+      "graded_by": "numeric",
+      "question": "What share of first class passengers have a recorded cabin number?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-13",
+      "arm": "on",
+      "dataset": "data/passengers.csv",
+      "difficulty": "hard",
+      "tags": [
+        "open-ended",
+        "groupby"
+      ],
+      "graded_by": "judge",
+      "question": "Summarise how survival varied with passenger class and sex, and say which single factor separates survivors most sharply.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-01",
+      "arm": "on",
+      "dataset": "data/sales.csv",
+      "difficulty": "easy",
+      "tags": [
+        "aggregation"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the total revenue across all orders?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-02",
+      "arm": "on",
+      "dataset": "data/sales.csv",
+      "difficulty": "easy",
+      "tags": [
+        "groupby",
+        "categorical"
+      ],
+      "graded_by": "predicate",
+      "question": "Which region has the highest total revenue?",
+      "skipped": false,
+      "passed": true,
+      "grade": {
+        "passed": true,
+        "method": "predicate",
+        "type": "contains_all",
+        "missing": []
+      },
+      "answer": "North is the highest-revenue region over the full 2024-2025 period, with 588920.0 in total revenue. It beats the runner-up, East, by 128565.0, which is about 27.9 percent more than East's total. Revenue here is the revenue column summed as-is; it already equals units * unit_price per order, so no recomputation was needed.",
+      "supporting_values": [
+        "North",
+        "588920.0",
+        "East",
+        "460355.0",
+        "128565.0",
+        "27.9"
+      ],
+      "stop_reason": "final_answer",
+      "steps": 5,
+      "tool_calls": 5,
+      "repair_attempts": 2,
+      "repair_successes": 1,
+      "failure_kinds": [
+        "runtime_error"
+      ],
+      "sandbox_violations": 0,
+      "grounded": true,
+      "cost_usd": 0.040446,
+      "wall_s": 2.189,
+      "trace_path": "/tmp/benchruns/on/sales-02-on/trace.json"
+    },
+    {
+      "id": "sales-03",
+      "arm": "on",
+      "dataset": "data/sales.csv",
+      "difficulty": "easy",
+      "tags": [
+        "count"
+      ],
+      "graded_by": "numeric",
+      "question": "How many orders are in the table?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-04",
+      "arm": "on",
+      "dataset": "data/sales.csv",
+      "difficulty": "easy",
+      "tags": [
+        "groupby",
+        "categorical"
+      ],
+      "graded_by": "predicate",
+      "question": "Which product sold the most units in total?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-05",
+      "arm": "on",
+      "dataset": "data/sales.csv",
+      "difficulty": "easy",
+      "tags": [
+        "aggregation"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the average order value, in revenue per order?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-06",
+      "arm": "on",
+      "dataset": "data/sales.csv",
+      "difficulty": "medium",
+      "tags": [
+        "time-series",
+        "arithmetic"
+      ],
+      "graded_by": "numeric",
+      "question": "By what percentage did total revenue grow from 2024 to 2025?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-07",
+      "arm": "on",
+      "dataset": "data/sales.csv",
+      "difficulty": "medium",
+      "tags": [
+        "time-series",
+        "groupby"
+      ],
+      "graded_by": "predicate",
+      "question": "Which calendar month had the highest total revenue? Give it as YYYY-MM.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-08",
+      "arm": "on",
+      "dataset": "data/sales.csv",
+      "difficulty": "medium",
+      "tags": [
+        "time-series",
+        "filter"
+      ],
+      "graded_by": "numeric",
+      "question": "How many orders were placed in the fourth quarter of 2025?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-09",
+      "arm": "on",
+      "dataset": "data/sales.csv",
+      "difficulty": "medium",
+      "tags": [
+        "groupby",
+        "filter"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the average order value on the partner channel?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-10",
+      "arm": "on",
+      "dataset": "data/sales.csv",
+      "difficulty": "medium",
+      "tags": [
+        "groupby",
+        "arithmetic"
+      ],
+      "graded_by": "numeric",
+      "question": "What percentage of total revenue comes from the Quarry Core product?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-11",
+      "arm": "on",
+      "dataset": "data/sales.csv",
+      "difficulty": "hard",
+      "tags": [
+        "time-series",
+        "groupby"
+      ],
+      "graded_by": "predicate",
+      "question": "Which day of the week has the lowest total revenue?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-12",
+      "arm": "on",
+      "dataset": "data/sales.csv",
+      "difficulty": "hard",
+      "tags": [
+        "groupby",
+        "join",
+        "arithmetic"
+      ],
+      "graded_by": "numeric",
+      "question": "On average across products, what percentage discount does the partner channel get on unit price compared with the direct channel?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-13",
+      "arm": "on",
+      "dataset": "data/sales.csv",
+      "difficulty": "easy",
+      "tags": [
+        "count",
+        "categorical"
+      ],
+      "graded_by": "numeric",
+      "question": "How many distinct products are sold?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-14",
+      "arm": "on",
+      "dataset": "data/sales.csv",
+      "difficulty": "medium",
+      "tags": [
+        "time-series",
+        "filter"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the total revenue in the first half of 2024?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-15",
+      "arm": "on",
+      "dataset": "data/sales.csv",
+      "difficulty": "hard",
+      "tags": [
+        "open-ended",
+        "time-series"
+      ],
+      "graded_by": "judge",
+      "question": "Describe the shape of revenue over the two years: the trend, any seasonality, and the weekday effect.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-01",
+      "arm": "on",
+      "dataset": "data/sensors.csv",
+      "difficulty": "easy",
+      "tags": [
+        "count"
+      ],
+      "graded_by": "numeric",
+      "question": "How many readings are in the table?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-02",
+      "arm": "on",
+      "dataset": "data/sensors.csv",
+      "difficulty": "medium",
+      "tags": [
+        "messy",
+        "type-coercion"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the mean temperature in degrees C across all readings?",
+      "skipped": false,
+      "passed": true,
+      "grade": {
+        "passed": true,
+        "method": "numeric",
+        "expected": 17.587269,
+        "matched": 17.587,
+        "window": 0.087936345
+      },
+      "answer": "The mean temperature is 17.587 C. That is computed over the 487 readings of 600 that carry a usable value: temp_c is stored as text, with a ' C' unit suffix on some rows and the literal string 'N/A' or an empty cell on 113 rows, all of which were coerced to missing and excluded rather than counted as zero.",
+      "supporting_values": [
+        "17.587",
+        "487",
+        "600",
+        "113"
+      ],
+      "stop_reason": "final_answer",
+      "steps": 3,
+      "tool_calls": 3,
+      "repair_attempts": 1,
+      "repair_successes": 1,
+      "failure_kinds": [
+        "runtime_error"
+      ],
+      "sandbox_violations": 0,
+      "grounded": true,
+      "cost_usd": 0.019065,
+      "wall_s": 1.102,
+      "trace_path": "/tmp/benchruns/on/sens-02-on/trace.json"
+    },
+    {
+      "id": "sens-03",
+      "arm": "on",
+      "dataset": "data/sensors.csv",
+      "difficulty": "medium",
+      "tags": [
+        "messy",
+        "nulls"
+      ],
+      "graded_by": "numeric",
+      "question": "How many readings have a usable numeric temperature?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-04",
+      "arm": "on",
+      "dataset": "data/sensors.csv",
+      "difficulty": "medium",
+      "tags": [
+        "messy",
+        "categorical"
+      ],
+      "graded_by": "numeric",
+      "question": "How many distinct physical stations are there? Station codes are recorded inconsistently.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-05",
+      "arm": "on",
+      "dataset": "data/sensors.csv",
+      "difficulty": "medium",
+      "tags": [
+        "messy",
+        "categorical"
+      ],
+      "graded_by": "numeric",
+      "question": "How many readings have status OK? Status is recorded with inconsistent capitalisation.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-06",
+      "arm": "on",
+      "dataset": "data/sensors.csv",
+      "difficulty": "hard",
+      "tags": [
+        "messy",
+        "type-coercion",
+        "nulls"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the mean humidity? Some values carry a percent sign and some rows use -999 as a missing marker.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-07",
+      "arm": "on",
+      "dataset": "data/sensors.csv",
+      "difficulty": "easy",
+      "tags": [
+        "aggregation"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the highest battery percentage recorded?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-08",
+      "arm": "on",
+      "dataset": "data/sensors.csv",
+      "difficulty": "easy",
+      "tags": [
+        "nulls"
+      ],
+      "graded_by": "numeric",
+      "question": "How many readings have no recorded placement?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-09",
+      "arm": "on",
+      "dataset": "data/sensors.csv",
+      "difficulty": "medium",
+      "tags": [
+        "messy",
+        "categorical"
+      ],
+      "graded_by": "numeric",
+      "question": "What proportion of readings are in a degraded state? Status casing is inconsistent.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-10",
+      "arm": "on",
+      "dataset": "data/sensors.csv",
+      "difficulty": "hard",
+      "tags": [
+        "messy",
+        "groupby"
+      ],
+      "graded_by": "predicate",
+      "question": "Which station recorded the most readings, once station codes are normalised for capitalisation?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-11",
+      "arm": "on",
+      "dataset": "data/sensors.csv",
+      "difficulty": "hard",
+      "tags": [
+        "messy",
+        "type-coercion",
+        "filter"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the mean temperature for outdoor readings? Placement casing is inconsistent and temperature is stored as text.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-12",
+      "arm": "on",
+      "dataset": "data/sensors.csv",
+      "difficulty": "medium",
+      "tags": [
+        "messy",
+        "nulls"
+      ],
+      "graded_by": "numeric",
+      "question": "How many humidity readings use the -999 missing marker?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-13",
+      "arm": "on",
+      "dataset": "data/sensors.csv",
+      "difficulty": "hard",
+      "tags": [
+        "messy",
+        "time-series",
+        "type-coercion"
+      ],
+      "graded_by": "predicate",
+      "question": "What is the date of the earliest reading? Timestamps are stored in more than one format. Answer as YYYY-MM-DD.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-14",
+      "arm": "on",
+      "dataset": "data/sensors.csv",
+      "difficulty": "hard",
+      "tags": [
+        "messy",
+        "time-series"
+      ],
+      "graded_by": "numeric",
+      "question": "Over how many whole days does the data span, from the earliest to the latest reading?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-15",
+      "arm": "on",
+      "dataset": "data/sensors.csv",
+      "difficulty": "hard",
+      "tags": [
+        "open-ended",
+        "messy"
+      ],
+      "graded_by": "judge",
+      "question": "What are the main data quality problems in this table, and which columns are affected?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-01",
+      "arm": "off",
+      "dataset": "data/passengers.csv",
+      "difficulty": "easy",
+      "tags": [
+        "count"
+      ],
+      "graded_by": "numeric",
+      "question": "How many passengers are in the table?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-02",
+      "arm": "off",
+      "dataset": "data/passengers.csv",
+      "difficulty": "easy",
+      "tags": [
+        "aggregation"
+      ],
+      "graded_by": "numeric",
+      "question": "What fraction of passengers survived?",
+      "skipped": false,
+      "passed": true,
+      "grade": {
+        "passed": true,
+        "method": "numeric",
+        "expected": 0.447059,
+        "matched": 0.4471,
+        "window": 0.002235295
+      },
+      "answer": "0.4471 of passengers survived, that is 44.71 percent of the 340 people in the table. The survived column is a 0/1 flag with no missing values, so the mean is the rate directly.",
+      "supporting_values": [
+        "0.4471",
+        "340"
+      ],
+      "stop_reason": "final_answer",
+      "steps": 2,
+      "tool_calls": 2,
+      "repair_attempts": 0,
+      "repair_successes": 0,
+      "failure_kinds": [],
+      "sandbox_violations": 0,
+      "grounded": true,
+      "cost_usd": 0.00981,
+      "wall_s": 0.005,
+      "trace_path": "/tmp/benchruns/off/pass-02-off/trace.json"
+    },
+    {
+      "id": "pass-03",
+      "arm": "off",
+      "dataset": "data/passengers.csv",
+      "difficulty": "easy",
+      "tags": [
+        "groupby",
+        "filter"
+      ],
+      "graded_by": "numeric",
+      "question": "What was the average fare paid by first class passengers?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-04",
+      "arm": "off",
+      "dataset": "data/passengers.csv",
+      "difficulty": "easy",
+      "tags": [
+        "nulls"
+      ],
+      "graded_by": "numeric",
+      "question": "How many passengers have no recorded age?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-05",
+      "arm": "off",
+      "dataset": "data/passengers.csv",
+      "difficulty": "easy",
+      "tags": [
+        "groupby",
+        "filter"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the survival rate among female passengers?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-06",
+      "arm": "off",
+      "dataset": "data/passengers.csv",
+      "difficulty": "easy",
+      "tags": [
+        "groupby",
+        "categorical"
+      ],
+      "graded_by": "predicate",
+      "question": "Which embarkation port did the most passengers leave from?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-07",
+      "arm": "off",
+      "dataset": "data/passengers.csv",
+      "difficulty": "medium",
+      "tags": [
+        "nulls",
+        "aggregation"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the median age of passengers, ignoring missing ages?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-08",
+      "arm": "off",
+      "dataset": "data/passengers.csv",
+      "difficulty": "medium",
+      "tags": [
+        "filter",
+        "count"
+      ],
+      "graded_by": "numeric",
+      "question": "How many passengers travelled with at least one sibling or spouse aboard?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-09",
+      "arm": "off",
+      "dataset": "data/passengers.csv",
+      "difficulty": "hard",
+      "tags": [
+        "nulls",
+        "filter",
+        "groupby"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the survival rate of third class passengers under 18? Passengers with a missing age should be excluded.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-10",
+      "arm": "off",
+      "dataset": "data/passengers.csv",
+      "difficulty": "medium",
+      "tags": [
+        "groupby",
+        "arithmetic"
+      ],
+      "graded_by": "numeric",
+      "question": "How much higher is the average fare of survivors than of non-survivors?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-11",
+      "arm": "off",
+      "dataset": "data/passengers.csv",
+      "difficulty": "medium",
+      "tags": [
+        "correlation"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the Pearson correlation between fare and survival?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-12",
+      "arm": "off",
+      "dataset": "data/passengers.csv",
+      "difficulty": "medium",
+      "tags": [
+        "nulls",
+        "filter"
+      ],
+      "graded_by": "numeric",
+      "question": "What share of first class passengers have a recorded cabin number?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "pass-13",
+      "arm": "off",
+      "dataset": "data/passengers.csv",
+      "difficulty": "hard",
+      "tags": [
+        "open-ended",
+        "groupby"
+      ],
+      "graded_by": "judge",
+      "question": "Summarise how survival varied with passenger class and sex, and say which single factor separates survivors most sharply.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-01",
+      "arm": "off",
+      "dataset": "data/sales.csv",
+      "difficulty": "easy",
+      "tags": [
+        "aggregation"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the total revenue across all orders?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-02",
+      "arm": "off",
+      "dataset": "data/sales.csv",
+      "difficulty": "easy",
+      "tags": [
+        "groupby",
+        "categorical"
+      ],
+      "graded_by": "predicate",
+      "question": "Which region has the highest total revenue?",
+      "skipped": false,
+      "passed": false,
+      "grade": {
+        "passed": false,
+        "method": "predicate",
+        "detail": "the run produced no answer"
+      },
+      "answer": null,
+      "supporting_values": [],
+      "stop_reason": "failed_without_repair",
+      "steps": 1,
+      "tool_calls": 1,
+      "repair_attempts": 0,
+      "repair_successes": 0,
+      "failure_kinds": [
+        "runtime_error"
+      ],
+      "sandbox_violations": 0,
+      "grounded": false,
+      "cost_usd": 0.00492,
+      "wall_s": 0.662,
+      "trace_path": "/tmp/benchruns/off/sales-02-off/trace.json"
+    },
+    {
+      "id": "sales-03",
+      "arm": "off",
+      "dataset": "data/sales.csv",
+      "difficulty": "easy",
+      "tags": [
+        "count"
+      ],
+      "graded_by": "numeric",
+      "question": "How many orders are in the table?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-04",
+      "arm": "off",
+      "dataset": "data/sales.csv",
+      "difficulty": "easy",
+      "tags": [
+        "groupby",
+        "categorical"
+      ],
+      "graded_by": "predicate",
+      "question": "Which product sold the most units in total?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-05",
+      "arm": "off",
+      "dataset": "data/sales.csv",
+      "difficulty": "easy",
+      "tags": [
+        "aggregation"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the average order value, in revenue per order?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-06",
+      "arm": "off",
+      "dataset": "data/sales.csv",
+      "difficulty": "medium",
+      "tags": [
+        "time-series",
+        "arithmetic"
+      ],
+      "graded_by": "numeric",
+      "question": "By what percentage did total revenue grow from 2024 to 2025?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-07",
+      "arm": "off",
+      "dataset": "data/sales.csv",
+      "difficulty": "medium",
+      "tags": [
+        "time-series",
+        "groupby"
+      ],
+      "graded_by": "predicate",
+      "question": "Which calendar month had the highest total revenue? Give it as YYYY-MM.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-08",
+      "arm": "off",
+      "dataset": "data/sales.csv",
+      "difficulty": "medium",
+      "tags": [
+        "time-series",
+        "filter"
+      ],
+      "graded_by": "numeric",
+      "question": "How many orders were placed in the fourth quarter of 2025?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-09",
+      "arm": "off",
+      "dataset": "data/sales.csv",
+      "difficulty": "medium",
+      "tags": [
+        "groupby",
+        "filter"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the average order value on the partner channel?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-10",
+      "arm": "off",
+      "dataset": "data/sales.csv",
+      "difficulty": "medium",
+      "tags": [
+        "groupby",
+        "arithmetic"
+      ],
+      "graded_by": "numeric",
+      "question": "What percentage of total revenue comes from the Quarry Core product?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-11",
+      "arm": "off",
+      "dataset": "data/sales.csv",
+      "difficulty": "hard",
+      "tags": [
+        "time-series",
+        "groupby"
+      ],
+      "graded_by": "predicate",
+      "question": "Which day of the week has the lowest total revenue?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-12",
+      "arm": "off",
+      "dataset": "data/sales.csv",
+      "difficulty": "hard",
+      "tags": [
+        "groupby",
+        "join",
+        "arithmetic"
+      ],
+      "graded_by": "numeric",
+      "question": "On average across products, what percentage discount does the partner channel get on unit price compared with the direct channel?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-13",
+      "arm": "off",
+      "dataset": "data/sales.csv",
+      "difficulty": "easy",
+      "tags": [
+        "count",
+        "categorical"
+      ],
+      "graded_by": "numeric",
+      "question": "How many distinct products are sold?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-14",
+      "arm": "off",
+      "dataset": "data/sales.csv",
+      "difficulty": "medium",
+      "tags": [
+        "time-series",
+        "filter"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the total revenue in the first half of 2024?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sales-15",
+      "arm": "off",
+      "dataset": "data/sales.csv",
+      "difficulty": "hard",
+      "tags": [
+        "open-ended",
+        "time-series"
+      ],
+      "graded_by": "judge",
+      "question": "Describe the shape of revenue over the two years: the trend, any seasonality, and the weekday effect.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-01",
+      "arm": "off",
+      "dataset": "data/sensors.csv",
+      "difficulty": "easy",
+      "tags": [
+        "count"
+      ],
+      "graded_by": "numeric",
+      "question": "How many readings are in the table?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-02",
+      "arm": "off",
+      "dataset": "data/sensors.csv",
+      "difficulty": "medium",
+      "tags": [
+        "messy",
+        "type-coercion"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the mean temperature in degrees C across all readings?",
+      "skipped": false,
+      "passed": false,
+      "grade": {
+        "passed": false,
+        "method": "numeric",
+        "detail": "the run produced no answer"
+      },
+      "answer": null,
+      "supporting_values": [],
+      "stop_reason": "failed_without_repair",
+      "steps": 1,
+      "tool_calls": 1,
+      "repair_attempts": 0,
+      "repair_successes": 0,
+      "failure_kinds": [
+        "runtime_error"
+      ],
+      "sandbox_violations": 0,
+      "grounded": false,
+      "cost_usd": 0.00432,
+      "wall_s": 0.614,
+      "trace_path": "/tmp/benchruns/off/sens-02-off/trace.json"
+    },
+    {
+      "id": "sens-03",
+      "arm": "off",
+      "dataset": "data/sensors.csv",
+      "difficulty": "medium",
+      "tags": [
+        "messy",
+        "nulls"
+      ],
+      "graded_by": "numeric",
+      "question": "How many readings have a usable numeric temperature?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-04",
+      "arm": "off",
+      "dataset": "data/sensors.csv",
+      "difficulty": "medium",
+      "tags": [
+        "messy",
+        "categorical"
+      ],
+      "graded_by": "numeric",
+      "question": "How many distinct physical stations are there? Station codes are recorded inconsistently.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-05",
+      "arm": "off",
+      "dataset": "data/sensors.csv",
+      "difficulty": "medium",
+      "tags": [
+        "messy",
+        "categorical"
+      ],
+      "graded_by": "numeric",
+      "question": "How many readings have status OK? Status is recorded with inconsistent capitalisation.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-06",
+      "arm": "off",
+      "dataset": "data/sensors.csv",
+      "difficulty": "hard",
+      "tags": [
+        "messy",
+        "type-coercion",
+        "nulls"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the mean humidity? Some values carry a percent sign and some rows use -999 as a missing marker.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-07",
+      "arm": "off",
+      "dataset": "data/sensors.csv",
+      "difficulty": "easy",
+      "tags": [
+        "aggregation"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the highest battery percentage recorded?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-08",
+      "arm": "off",
+      "dataset": "data/sensors.csv",
+      "difficulty": "easy",
+      "tags": [
+        "nulls"
+      ],
+      "graded_by": "numeric",
+      "question": "How many readings have no recorded placement?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-09",
+      "arm": "off",
+      "dataset": "data/sensors.csv",
+      "difficulty": "medium",
+      "tags": [
+        "messy",
+        "categorical"
+      ],
+      "graded_by": "numeric",
+      "question": "What proportion of readings are in a degraded state? Status casing is inconsistent.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-10",
+      "arm": "off",
+      "dataset": "data/sensors.csv",
+      "difficulty": "hard",
+      "tags": [
+        "messy",
+        "groupby"
+      ],
+      "graded_by": "predicate",
+      "question": "Which station recorded the most readings, once station codes are normalised for capitalisation?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-11",
+      "arm": "off",
+      "dataset": "data/sensors.csv",
+      "difficulty": "hard",
+      "tags": [
+        "messy",
+        "type-coercion",
+        "filter"
+      ],
+      "graded_by": "numeric",
+      "question": "What is the mean temperature for outdoor readings? Placement casing is inconsistent and temperature is stored as text.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-12",
+      "arm": "off",
+      "dataset": "data/sensors.csv",
+      "difficulty": "medium",
+      "tags": [
+        "messy",
+        "nulls"
+      ],
+      "graded_by": "numeric",
+      "question": "How many humidity readings use the -999 missing marker?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-13",
+      "arm": "off",
+      "dataset": "data/sensors.csv",
+      "difficulty": "hard",
+      "tags": [
+        "messy",
+        "time-series",
+        "type-coercion"
+      ],
+      "graded_by": "predicate",
+      "question": "What is the date of the earliest reading? Timestamps are stored in more than one format. Answer as YYYY-MM-DD.",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-14",
+      "arm": "off",
+      "dataset": "data/sensors.csv",
+      "difficulty": "hard",
+      "tags": [
+        "messy",
+        "time-series"
+      ],
+      "graded_by": "numeric",
+      "question": "Over how many whole days does the data span, from the earliest to the latest reading?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    },
+    {
+      "id": "sens-15",
+      "arm": "off",
+      "dataset": "data/sensors.csv",
+      "difficulty": "hard",
+      "tags": [
+        "open-ended",
+        "messy"
+      ],
+      "graded_by": "judge",
+      "question": "What are the main data quality problems in this table, and which columns are affected?",
+      "skipped": true,
+      "skip_reason": "no offline fixture"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "scenario": "sales_repair",
+  "model": "offline/replay (recorded shape: anthropic/claude-3.5-sonnet)",
+  "dataset": "data/sales.csv",
+  "note": "Canned model turns. Tool execution, timings and the trace are real.",
+  "match_questions": [
+    "Which region has the highest total revenue, and by how much does it beat the runner-up?",
+    "Which region has the highest total revenue?"
+  ],
+  "responses": [
+    {
+      "text": "Revenue by region is a straight groupby. I'll sum the revenue column per region and sort.",
+      "prompt_tokens": 1180,
+      "completion_tokens": 92,
+      "latency_s": 2.41,
+      "tool_calls": [
+        {
+          "name": "run_python",
+          "arguments": {
+            "code": "result = df.groupby('region')['total_revenue'].sum().sort_values(ascending=False)"
+          }
+        }
+      ]
+    },
+    {
+      "text": "KeyError on 'total_revenue', so that column does not exist. I guessed the name instead of checking it. Let me look at the real schema before writing more code.",
+      "prompt_tokens": 1402,
+      "completion_tokens": 78,
+      "latency_s": 1.88,
+      "tool_calls": [
+        {
+          "name": "inspect_schema",
+          "arguments": {}
+        }
+      ]
+    },
+    {
+      "text": "The revenue column is called `revenue`, and it is already units * unit_price, so I can sum it directly. I also want the gap to the runner-up.",
+      "prompt_tokens": 2310,
+      "completion_tokens": 171,
+      "latency_s": 3.02,
+      "tool_calls": [
+        {
+          "name": "run_python",
+          "arguments": {
+            "code": "by_region = df.groupby('region')['revenue'].sum().sort_values(ascending=False)\nprint(by_region.round(2))\ntop, runner_up = by_region.index[0], by_region.index[1]\ngap = by_region.iloc[0] - by_region.iloc[1]\nprint('gap', round(gap, 2))\nprint('gap_pct', round(100 * gap / by_region.iloc[1], 1))\nresult = {'top': top, 'top_revenue': round(float(by_region.iloc[0]), 2), 'runner_up': runner_up, 'gap': round(float(gap), 2)}"
+          }
+        }
+      ]
+    },
+    {
+      "text": "A bar chart makes the ranking readable at a glance.",
+      "prompt_tokens": 2690,
+      "completion_tokens": 140,
+      "latency_s": 2.77,
+      "tool_calls": [
+        {
+          "name": "make_chart",
+          "arguments": {
+            "code": "import matplotlib.pyplot as plt\nby_region = df.groupby('region')['revenue'].sum().sort_values(ascending=False)\nfig, ax = plt.subplots(figsize=(6, 3.4))\nax.bar(by_region.index, by_region.values, color='#1f3a5f')\nax.set_ylabel('total revenue')\nax.set_title('Revenue by region, 2024-2025')\nax.spines['top'].set_visible(False)\nax.spines['right'].set_visible(False)\nfig.tight_layout()\nplt.savefig('chart.png', dpi=140)\nresult = 'chart written'"
+          }
+        }
+      ]
+    },
+    {
+      "text": "",
+      "prompt_tokens": 2905,
+      "completion_tokens": 118,
+      "latency_s": 2.2,
+      "tool_calls": [
+        {
+          "name": "final_answer",
+          "arguments": {
+            "answer": "North is the highest-revenue region over the full 2024-2025 period, with 588920.0 in total revenue. It beats the runner-up, East, by 128565.0, which is about 27.9 percent more than East's total. Revenue here is the revenue column summed as-is; it already equals units * unit_price per order, so no recomputation was needed.",
+            "supporting_values": [
+              "North",
+              "588920.0",
+              "East",
+              "460355.0",
+              "128565.0",
+              "27.9"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "scenario": "passengers_rate",
+  "model": "offline/replay (recorded shape: anthropic/claude-3.5-sonnet)",
+  "dataset": "data/passengers.csv",
+  "note": "Canned model turns. Tool execution, timings and the trace are real.",
+  "match_questions": [
+    "What fraction of passengers survived?"
+  ],
+  "responses": [
+    {
+      "text": "survived is a 0/1 column, so the mean is the survival rate.",
+      "prompt_tokens": 1190,
+      "completion_tokens": 58,
+      "latency_s": 1.62,
+      "tool_calls": [
+        {
+          "name": "run_sql",
+          "arguments": {
+            "query": "SELECT COUNT(*) AS n, AVG(survived) AS survival_rate FROM passengers"
+          }
+        }
+      ]
+    },
+    {
+      "text": "",
+      "prompt_tokens": 1430,
+      "completion_tokens": 72,
+      "latency_s": 1.48,
+      "tool_calls": [
+        {
+          "name": "final_answer",
+          "arguments": {
+            "answer": "0.4471 of passengers survived, that is 44.71 percent of the 340 people in the table. The survived column is a 0/1 flag with no missing values, so the mean is the rate directly.",
+            "supporting_values": [
+              "0.4471",
+              "340"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
