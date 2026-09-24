@@ -91,5 +91,12 @@ def test_env_not_committed():
     """.env must be ignored by git (secret hygiene)."""
     gitignore = open(".gitignore").read()
     assert ".env" in gitignore
-    # .env exists locally but must never be tracked
-    assert os.path.exists(".env")
+    # If a local .env exists, it must never be tracked by git
+    import subprocess
+
+    if os.path.exists(".env"):
+        tracked = subprocess.run(
+            ["git", "ls-files", "--error-unmatch", ".env"],
+            capture_output=True,
+        )
+        assert tracked.returncode != 0, ".env is tracked by git!"
