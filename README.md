@@ -96,6 +96,9 @@ QUARRY_MODELS=openrouter/free,nvidia/nemotron-3-super-120b-a12b:free,nex-agi/nex
 
 ### Web UI + API
 
+**Windows:** double-click `Start-UI.bat` — it starts the server and opens
+http://127.0.0.1:8477 in your browser (if the server is already running it just opens it).
+
 ```bash
 uvicorn quarry.api:app --port 8477
 # open http://127.0.0.1:8477 — upload a CSV, ask, see trace + charts
