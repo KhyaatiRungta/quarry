@@ -1,0 +1,88 @@
+{
+  "tasks": [
+    {
+      "name": "highest-revenue-region",
+      "question": "Which region has the highest total revenue?",
+      "data": "data/sales.csv",
+      "turns": [
+        {
+          "tool": "run_python",
+          "repair": false,
+          "args": {
+            "code": "totals = df.groupby('region')['Revenue'].sum()\nprint(totals)"
+          }
+        },
+        {
+          "tool": "run_python",
+          "repair": true,
+          "args": {
+            "code": "totals = df.groupby('Region')['Revenue'].sum().sort_values(ascending=False)\nprint(totals)"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "args": {
+            "answer": "East has the highest total revenue at 675,000.",
+            "supporting_values": ["675000"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "q2-total-revenue",
+      "question": "What was the total revenue in Q2?",
+      "data": "data/sales.csv",
+      "turns": [
+        {
+          "tool": "run_python",
+          "repair": false,
+          "args": {
+            "code": "total = df[df['quarter'] == 'Q2']['Revenue'].sum()\nprint(f'Total Q2 revenue: {total}')"
+          }
+        },
+        {
+          "tool": "run_python",
+          "repair": true,
+          "args": {
+            "code": "total = df[df['Quarter'] == 'Q2']['Revenue'].sum()\nprint(f'Total Q2 revenue: {total}')"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "args": {
+            "answer": "Total Q2 revenue was 1,080,000.",
+            "supporting_values": ["1080000"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "units-by-region",
+      "question": "Which region sold the most units overall?",
+      "data": "data/sales.csv",
+      "turns": [
+        {
+          "tool": "run_python",
+          "repair": false,
+          "args": {
+            "code": "units = df.groupby('Region')['Units_Sold'].sum().sort_values(ascending=False)\nprint(units)"
+          }
+        },
+        {
+          "tool": "run_python",
+          "repair": false,
+          "args": {
+            "code": "extra = df.groupby('Region')['Units'].sum()\nprint(extra)"
+          }
+        },
+        {
+          "tool": "final_answer",
+          "args": {
+            "answer": "East sold the most units overall with 995 units.",
+            "supporting_values": ["995"]
+          }
+        }
+      ]
+    }
+  ]
+}

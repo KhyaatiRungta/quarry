@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quarry-agent"
+version = "1.0.0"
+description = "A sandboxed data-analyst agent with a self-correcting ReAct loop"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Khyaati Rungta" }]
+keywords = ["llm", "agent", "react", "data-analysis", "sandbox"]
+dependencies = [
+    "pandas",
+    "numpy",
+    "matplotlib",
+    "openai",
+    "python-dotenv",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov", "ruff", "httpx2", "fastapi", "uvicorn", "python-multipart", "httpx"]
+api = ["fastapi", "uvicorn", "python-multipart", "httpx"]
+
+[project.scripts]
+quarry = "quarry.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["quarry*"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

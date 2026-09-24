@@ -1,0 +1,17 @@
+Region,Product,Quarter,Revenue,Units_Sold,Price_Per_Unit
+North,Laptop,Q1,150000,50,3000
+North,Laptop,Q2,180000,60,3000
+North,Phone,Q1,90000,300,300
+North,Phone,Q2,110000,350,300
+South,Laptop,Q1,120000,40,3000
+South,Laptop,Q2,140000,45,3000
+South,Phone,Q1,80000,250,300
+South,Phone,Q2,95000,300,300
+East,Laptop,Q1,200000,70,3000
+East,Laptop,Q2,220000,75,3000
+East,Phone,Q1,120000,400,300
+East,Phone,Q2,135000,450,300
+West,Laptop,Q1,100000,35,3000
+West,Laptop,Q2,115000,40,3000
+West,Phone,Q1,70000,220,300
+West,Phone,Q2,85000,270,300

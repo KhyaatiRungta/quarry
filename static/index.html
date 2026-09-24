@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Quarry — Ask Your Data</title>
+<style>
+  :root {
+    --bg: #0f1420; --card: #1a2233; --accent: #4f8cff; --ok: #37d67a;
+    --bad: #ff5c5c; --text: #e7ecf5; --muted: #8b96ad;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: "Segoe UI", system-ui, sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 40px 20px; }
+  h1 { font-size: 2.2rem; margin: 0 0 4px; }
+  h1 span { color: var(--accent); }
+  .sub { color: var(--muted); margin-bottom: 28px; }
+  .card {
+    background: var(--card); border: 1px solid #232d44; border-radius: 14px;
+    padding: 22px; margin-bottom: 18px;
+  }
+  label { display: block; font-size: .85rem; color: var(--muted); margin: 12px 0 6px; }
+  input[type="text"], input[type="file"] {
+    width: 100%; padding: 11px 13px; border-radius: 9px; border: 1px solid #2c3a58;
+    background: #121a2b; color: var(--text); font-size: .95rem;
+  }
+  button {
+    margin-top: 18px; padding: 12px 26px; border: 0; border-radius: 9px;
+    background: var(--accent); color: white; font-size: 1rem; font-weight: 600;
+    cursor: pointer;
+  }
+  button:disabled { opacity: .55; cursor: wait; }
+  .badge {
+    display: inline-block; padding: 3px 11px; border-radius: 999px;
+    font-size: .78rem; font-weight: 700;
+  }
+  .ok { background: rgba(55,214,122,.15); color: var(--ok); }
+  .bad { background: rgba(255,92,92,.15); color: var(--bad); }
+  .chips { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+  .chip {
+    background: #121a2b; border: 1px solid #2c3a58; padding: 5px 12px;
+    border-radius: 8px; font-size: .82rem; color: var(--muted);
+  }
+  .chip b { color: var(--text); }
+  .answer { font-size: 1.15rem; line-height: 1.55; margin-top: 14px; }
+  .step {
+    border-left: 3px solid #2c3a58; padding: 8px 14px; margin: 10px 0;
+    background: #121a2b; border-radius: 0 8px 8px 0;
+  }
+  .step.fail { border-left-color: var(--bad); }
+  .step.ok { border-left-color: var(--ok); }
+  .step-head { display: flex; justify-content: space-between; font-size: .85rem; }
+  .step-head b { color: var(--accent); }
+  pre {
+    white-space: pre-wrap; word-break: break-word; font-size: .8rem;
+    color: var(--muted); margin: 8px 0 0; max-height: 180px; overflow: auto;
+  }
+  img.chart { max-width: 100%; border-radius: 10px; margin-top: 12px; border: 1px solid #2c3a58; }
+  .error { color: var(--bad); margin-top: 12px; white-space: pre-wrap; }
+  .spin { display: none; color: var(--muted); margin-top: 12px; }
+  details summary { cursor: pointer; color: var(--muted); font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1><span>⛏</span> Quarry</h1>
+  <div class="sub">Upload a CSV, ask a question — the agent writes code, runs it in a sandbox, and self-corrects on failure.</div>
+
+  <div class="card">
+    <form id="form">
+      <label>Dataset (.csv, max 5 MB)</label>
+      <input type="file" id="file" accept=".csv" required />
+      <label>Your question</label>
+      <input type="text" id="question" placeholder="Which region has the highest total revenue?" required />
+      <button id="go" type="submit">Ask Quarry</button>
+      <div class="spin" id="spin">⛏ Quarry is thinking… (runs the ReAct loop, may take ~30s)</div>
+      <div class="error" id="error"></div>
+    </form>
+  </div>
+
+  <div class="card" id="result" style="display:none">
+    <span class="badge" id="badge"></span>
+    <div class="answer" id="answer"></div>
+    <div class="chips" id="chips"></div>
+    <div id="charts"></div>
+    <details style="margin-top:16px">
+      <summary>Execution trace</summary>
+      <div id="trace"></div>
+    </details>
+  </div>
+</div>
+
+<script>
+const esc = s => String(s).replace(/[&<>"']/g,
+  c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+document.getElementById('form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('go');
+  const spin = document.getElementById('spin');
+  const err = document.getElementById('error');
+  const result = document.getElementById('result');
+  err.textContent = '';
+  result.style.display = 'none';
+  btn.disabled = true; spin.style.display = 'block';
+
+  try {
+    const fd = new FormData();
+    fd.append('file', document.getElementById('file').files[0]);
+    fd.append('question', document.getElementById('question').value);
+
+    const res = await fetch('/api/ask', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || res.statusText);
+
+    render(data);
+  } catch (ex) {
+    err.textContent = ex.message;
+  } finally {
+    btn.disabled = false; spin.style.display = 'none';
+  }
+});
+
+function render(d) {
+  const badge = document.getElementById('badge');
+  badge.className = 'badge ' + (d.grounded ? 'ok' : 'bad');
+  badge.textContent = d.grounded ? '✓ GROUNDED (verify gate passed)' : '✗ NOT GROUNDED';
+
+  document.getElementById('answer').textContent = d.answer;
+  document.getElementById('chips').innerHTML = [
+    ['Steps', d.steps],
+    ['Repairs', `${d.repairs.recovered} recovered / ${d.repairs.attempts} failed`],
+    ['Tokens', `${d.tokens.input} in / ${d.tokens.out ?? d.tokens.output} out`],
+  ].map(([k, v]) => `<div class="chip">${k}: <b>${esc(v)}</b></div>`).join('');
+
+  document.getElementById('charts').innerHTML = (d.charts || [])
+    .map(c => `<img class="chart" src="data:image/png;base64,${c.data_base64}" alt="${esc(c.name)}"/>`)
+    .join('');
+
+  document.getElementById('trace').innerHTML = (d.trace || []).map(s => {
+    const fails = /FAILED|VERIFY FAILED/.test(JSON.stringify(s));
+    const cls = fails ? 'fail' : 'ok';
+    const code = s.args && s.args.code ? s.args.code : JSON.stringify(s.args || {});
+    const out = s.output ? '\n--- output ---\n' + s.output : '';
+    return `<div class="step ${cls}">
+      <div class="step-head"><b>step ${s.step}: ${esc(s.tool)}</b>
+        <span>${s.latency_ms != null ? s.latency_ms + ' ms' : ''}</span></div>
+      <pre>${esc(code + out)}</pre>
+    </div>`;
+  }).join('');
+
+  document.getElementById('result').style.display = 'block';
+}
+</script>
+</body>
+</html>
